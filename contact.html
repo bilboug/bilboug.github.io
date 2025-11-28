@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - Portfolio Cyber</title>
+  <style>
+    :root {
+      --neon-cyan: #00FFFF;
+      --neon-magenta: #FF00FF;
+      --dark-bg: #0A0A0F;
+      --grid-color: rgba(0, 255, 255, 0.2);
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--dark-bg);
+      color: white;
+      font-family: 'Courier New', monospace;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      opacity: 0.5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 20px var(--neon-cyan);
+      backdrop-filter: blur(5px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--neon-cyan);
+      animation: glowPulse 2s infinite alternate;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      gap: 2rem;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.5rem 1rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    nav a:hover {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+    }
+    
+    nav a.active {
+      color: var(--neon-cyan);
+      border-bottom: 2px solid var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+    }
+    
+    nav a:hover::before {
+      content: '>';
+      position: absolute;
+      left: -0.8rem;
+      color: var(--neon-cyan);
+      opacity: 0.8;
+    }
+    
+    /* Styles pour la page Contact */
+    .page-title {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-align: center;
+      margin: 2rem 0;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+      position: relative;
+    }
+    
+    .page-title::after {
+      content: "";
+      display: block;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+      margin: 0.5rem auto;
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+    
+    .contact-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      padding: 2rem;
+    }
+    
+    .contact-card {
+      background-color: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 500px;
+      padding: 3rem;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+      backdrop-filter: blur(5px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .contact-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta), var(--neon-cyan));
+      animation: gradientMove 3s linear infinite;
+    }
+    
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    
+    .contact-heading {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      color: white;
+      text-align: center;
+    }
+    
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background-color: rgba(0, 255, 255, 0.05);
+      border: 1px solid rgba(0, 255, 255, 0.2);
+      border-radius: 5px;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: white;
+    }
+    
+    .contact-link:hover {
+      background-color: rgba(0, 255, 255, 0.1);
+      border-color: var(--neon-cyan);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+    }
+    
+    .icon-container {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(0, 255, 255, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .icon {
+      color: var(--neon-cyan);
+      font-size: 1.3rem;
+    }
+    
+    .link-text {
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+    
+    .link-label {
+      display: block;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 0.2rem;
+    }
+    
+    .cyber-decoration {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      border: 1px dashed var(--neon-cyan);
+      border-radius: 50%;
+      top: -75px;
+      right: -75px;
+      z-index: -1;
+      opacity: 0.5;
+    }
+    
+    .cyber-decoration::before {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border: 1px dashed var(--neon-magenta);
+      border-radius: 50%;
+      top: 25px;
+      left: 25px;
+    }
+    
+    .cyber-decoration::after {
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background-color: rgba(0, 255, 255, 0.1);
+      border-radius: 50%;
+      top: 50px;
+      left: 50px;
+    }
+    
+    .animation-pulse {
+      animation: contactPulse 3s infinite alternate;
+    }
+    
+    @keyframes contactPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.03); }
+    }
+    
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 5px var(--neon-cyan); }
+      100% { box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan); }
+    }
+    
+    @media screen and (max-width: 768px) {
+      .contact-card {
+        padding: 2rem;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="parcours.html">Parcours</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="competences.html">Compétences</a></li>
+        <li><a href="#" class="active">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main class="container">
+    <h1 class="page-title">Contact</h1>
+    
+    <div class="contact-container">
+      <div class="contact-card animation-pulse">
+        <div class="cyber-decoration"></div>
+        <h2 class="contact-heading">Contactez-moi !</h2>
+        
+        <div class="contact-links">
+          <a href="mailto:b.boughlem@rt-iut.re" class="contact-link">
+            <div class="icon-container">
+              <div class="icon">@</div>
+            </div>
+            <div>
+              <span class="link-label">EMAIL</span>
+              <span class="link-text">b.boughlem@rt-iut.re</span>
+            </div>
+          </a>
+          
+          <a href="https://re.linkedin.com/in/bilel-boughlem-63b1a82a4" target="_blank" class="contact-link">
+            <div class="icon-container">
+              <div class="icon">in</div>
+            </div>
+            <div>
+              <span class="link-label">LINKEDIN</span>
+              <span class="link-text">Bilel Boughlem</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

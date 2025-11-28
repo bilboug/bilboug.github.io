@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compétences - Portfolio Cyber</title>
+  <style>
+    :root {
+      --neon-cyan: #00FFFF;
+      --neon-magenta: #FF00FF;
+      --dark-bg: #0A0A0F;
+      --grid-color: rgba(0, 255, 255, 0.2);
+      --neon-blue: #0050FF;
+      --neon-red: #FF0050;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--dark-bg);
+      color: white;
+      font-family: 'Courier New', monospace;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      opacity: 0.5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 20px var(--neon-cyan);
+      backdrop-filter: blur(5px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--neon-cyan);
+      animation: glowPulse 2s infinite alternate;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      gap: 2rem;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.5rem 1rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    nav a:hover {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+    }
+    
+    nav a.active {
+      color: var(--neon-cyan);
+      border-bottom: 2px solid var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+    }
+    
+    nav a:hover::before {
+      content: '>';
+      position: absolute;
+      left: -0.8rem;
+      color: var(--neon-cyan);
+      opacity: 0.8;
+    }
+
+    .page-title {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-align: center;
+      margin: 2rem 0;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+      position: relative;
+    }
+
+    .page-title::after {
+      content: "";
+      display: block;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+      margin: 0.5rem auto;
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+
+    .page-description {
+      max-width: 800px;
+      margin: 2rem auto;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.2rem;
+      line-height: 1.6;
+      text-align: center;
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+    
+    .skill-card {
+      background-color: rgba(10, 10, 15, 0.8);
+      border: 1px solid var(--neon-cyan);
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .skill-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 15px var(--neon-cyan);
+    }
+    
+    .skill-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background-color: var(--neon-cyan);
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+    
+    .skill-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 50%;
+      height: 2px;
+      background-color: var(--neon-cyan);
+      filter: blur(1px);
+      opacity: 0.5;
+    }
+    
+    .skill-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    
+    .skill-icon {
+      margin-right: 1rem;
+      font-size: 2rem;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--neon-cyan);
+      border-radius: 3px;
+      background-color: rgba(0, 255, 255, 0.1);
+    }
+    
+    .skill-title {
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin: 0;
+      color: var(--neon-cyan);
+    }
+    
+    .skill-content {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    /* Styles spécifiques pour BlueTeam */
+    .skill-card.blue-team {
+      border: 1px solid var(--neon-blue);
+      background-color: rgba(0, 30, 60, 0.8);
+    }
+    
+    .skill-card.blue-team:hover {
+      box-shadow: 0 0 15px var(--neon-blue);
+    }
+    
+    .skill-card.blue-team::before {
+      background-color: var(--neon-blue);
+      box-shadow: 0 0 10px var(--neon-blue);
+    }
+    
+    .skill-card.blue-team::after {
+      background-color: var(--neon-blue);
+    }
+    
+    .skill-card.blue-team .skill-icon {
+      color: var(--neon-blue);
+      text-shadow: 0 0 5px var(--neon-blue);
+      border: 1px solid var(--neon-blue);
+      background-color: rgba(0, 80, 255, 0.1);
+    }
+    
+    .skill-card.blue-team .skill-title {
+      color: var(--neon-blue);
+      text-shadow: 0 0 5px var(--neon-blue);
+    }
+    
+    .skill-card.blue-team .skill-content {
+      color: rgba(150, 200, 255, 0.9);
+    }
+
+    /* Styles spécifiques pour RedTeam */
+    .skill-card.red-team {
+      border: 1px solid var(--neon-red);
+      background-color: rgba(60, 0, 30, 0.8);
+    }
+    
+    .skill-card.red-team:hover {
+      box-shadow: 0 0 15px var(--neon-red);
+    }
+    
+    .skill-card.red-team::before {
+      background-color: var(--neon-red);
+      box-shadow: 0 0 10px var(--neon-red);
+    }
+    
+    .skill-card.red-team::after {
+      background-color: var(--neon-red);
+    }
+    
+    .skill-card.red-team .skill-icon {
+      color: var(--neon-red);
+      text-shadow: 0 0 5px var(--neon-red);
+      border: 1px solid var(--neon-red);
+      background-color: rgba(255, 0, 80, 0.1);
+    }
+    
+    .skill-card.red-team .skill-title {
+      color: var(--neon-red);
+      text-shadow: 0 0 5px var(--neon-red);
+    }
+    
+    .skill-card.red-team .skill-content {
+      color: rgba(255, 150, 180, 0.9);
+    }
+
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 5px var(--neon-cyan); }
+      100% { box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan); }
+    }
+    
+    @keyframes blueGlowPulse {
+      0% { box-shadow: 0 0 5px var(--neon-blue); }
+      100% { box-shadow: 0 0 15px var(--neon-blue), 0 0 30px var(--neon-blue); }
+    }
+    
+    @keyframes redGlowPulse {
+      0% { box-shadow: 0 0 5px var(--neon-red); }
+      100% { box-shadow: 0 0 15px var(--neon-red), 0 0 30px var(--neon-red); }
+    }
+    
+    @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100%); }
+    }
+
+    @media (max-width: 768px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="parcours.html">Parcours</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="competences.html" class="active">Compétences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main class="container">
+    <h1 class="page-title">Compétences</h1>
+    <p class="page-description">Découvrez les différents domaines techniques dans lesquels j'ai développé mon expertise au cours de ma formation et de mes projets.</p>
+    
+    <div class="skills-grid">
+      <!-- Systèmes d'exploitation -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">💻</div>
+          <h3 class="skill-title">Systèmes d'exploitation</h3>
+        </div>
+        <div class="skill-content">
+          <p>Linux (Debian, Kali, Ubuntu...), Windows (Server et versions 7+).</p>
+        </div>
+      </div>
+      
+      <!-- Gestion des services Linux -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🐧</div>
+          <h3 class="skill-title">Gestion des services Linux</h3>
+        </div>
+        <div class="skill-content">
+          <p>Serveurs web, de messagerie, DHCP, DNS, de partage de fichiers, de base de données...</p>
+        </div>
+      </div>
+      
+      <!-- Administration réseau -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🌐</div>
+          <h3 class="skill-title">Administration réseau</h3>
+        </div>
+        <div class="skill-content">
+          <p>Divers protocoles de switching et routage (OSPF, EIGRP, BGP, MPLS, VPN, VLAN, ACL, QoS, SD WAN...).</p>
+        </div>
+      </div>
+      
+      <!-- Gestion de projet -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">📊</div>
+          <h3 class="skill-title">Gestion de projet</h3>
+        </div>
+        <div class="skill-content">
+          <p>Divers logiciels et méthodes (Netion, Gantt, Trello, Agile...).</p>
+        </div>
+      </div>
+     
+      <!-- Virtualisation -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">🖥️</div>
+          <h3 class="skill-title">Virtualisation</h3>
+        </div>
+        <div class="skill-content">
+          <p>Diverses solutions (VirtualBox, VMware Workstation, Docker...)</p>
+        </div>
+      </div>
+      
+      <!-- Cybersécurité BlueTeam -->
+      <div class="skill-card blue-team">
+        <div class="skill-header">
+          <div class="skill-icon">🛡️</div>
+          <h3 class="skill-title">Cybersécurité BlueTeam</h3>
+        </div>
+        <div class="skill-content">
+          <p>Firewalls, IDS et IPS, protection contre les DDoS, cryptographie...</p>
+        </div>
+      </div>
+      
+      <!-- Cybersécurité RedTeam -->
+      <div class="skill-card red-team">
+        <div class="skill-header">
+          <div class="skill-icon">🔍</div>
+          <h3 class="skill-title">Cybersécurité RedTeam</h3>
+        </div>
+        <div class="skill-content">
+          <p>Outils d'exploitations de vulnérabilités, de test de pénétration, d'exploitation de réseau, d'attaque par force brute...</p>
+        </div>
+      </div>
+      
+      <!-- Télécommunications -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">📡</div>
+          <h3 class="skill-title">Télécommunications</h3>
+        </div>
+        <div class="skill-content">
+          <p>Téléphonie IP, réseaux mobiles, systèmes de transmission...</p>
+        </div>
+      </div>
+      
+      <!-- Développement -->
+      <div class="skill-card">
+        <div class="skill-header">
+          <div class="skill-icon">📝</div>
+          <h3 class="skill-title">Développement</h3>
+        </div>
+        <div class="skill-content">
+          <p>PHP, HTML/CSS, JS, Java, C, Python...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Animation pour les cartes de compétences
+    const skillCards = document.querySelectorAll('.skill-card');
+    
+    function animateCards() {
+      skillCards.forEach((card, index) => {
+        setTimeout(() => {
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 100 * index);
+      });
+    }
+    
+    // Initialisation des styles pour l'animation
+    skillCards.forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    });
+    
+    // Lancer l'animation après le chargement
+    window.addEventListener('load', animateCards);
+  </script>
+</body>
+</html>

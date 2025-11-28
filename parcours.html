@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parcours - Portfolio Cyber</title>
+  <style>
+    :root {
+      --neon-cyan: #00FFFF;
+      --neon-magenta: #FF00FF;
+      --dark-bg: #0A0A0F;
+      --grid-color: rgba(0, 255, 255, 0.2);
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--dark-bg);
+      color: white;
+      font-family: 'Courier New', monospace;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 40px 40px;
+      z-index: -1;
+      opacity: 0.5;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      box-shadow: 0 0 20px var(--neon-cyan);
+      backdrop-filter: blur(5px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--neon-cyan);
+      animation: glowPulse 2s infinite alternate;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      gap: 2rem;
+    }
+    
+    nav a {
+      color: white;
+      text-decoration: none;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      padding: 0.5rem 1rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    nav a:hover {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+    }
+    
+    nav a.active {
+      color: var(--neon-cyan);
+      border-bottom: 2px solid var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+    }
+    
+    nav a:hover::before {
+      content: '>';
+      position: absolute;
+      left: -0.8rem;
+      color: var(--neon-cyan);
+      opacity: 0.8;
+    }
+    
+    /* Styles pour la page Parcours */
+    .page-title {
+      font-size: 3rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      text-align: center;
+      margin: 2rem 0;
+      color: var(--neon-cyan);
+      text-shadow: 0 0 5px var(--neon-cyan), 0 0 10px var(--neon-cyan);
+      position: relative;
+    }
+    
+    .page-title::after {
+      content: "";
+      display: block;
+      width: 100px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--neon-cyan), var(--neon-magenta));
+      margin: 0.5rem auto;
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+    
+    .timeline-container {
+      position: relative;
+      padding: 3rem 0;
+    }
+    
+    .timeline {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 6px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-magenta));
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -3px;
+      box-shadow: 0 0 15px var(--neon-cyan);
+      z-index: 1;
+    }
+    
+    .timeline-item {
+      padding: 10px 40px;
+      position: relative;
+      width: 50%;
+      box-sizing: border-box;
+    }
+    
+    .timeline-item::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: var(--dark-bg);
+      border: 4px solid var(--neon-cyan);
+      border-radius: 50%;
+      z-index: 2;
+      top: 15px;
+      box-shadow: 0 0 10px var(--neon-cyan);
+    }
+    
+    .left {
+      left: 0;
+    }
+    
+    .right {
+      left: 50%;
+    }
+    
+    .left::after {
+      right: -10px;
+    }
+    
+    .right::after {
+      left: -10px;
+    }
+    
+    .timeline-content {
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 5px;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(5px);
+    }
+    
+    .timeline-content:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    }
+    
+    .timeline-content::before {
+      content: '';
+      position: absolute;
+      top: 15px;
+      width: 0;
+      height: 0;
+      border: medium solid var(--neon-cyan);
+    }
+    
+    .left .timeline-content::before {
+      right: -10px;
+      border-width: 10px 0 10px 10px;
+      border-color: transparent transparent transparent var(--neon-cyan);
+    }
+    
+    .right .timeline-content::before {
+      left: -10px;
+      border-width: 10px 10px 10px 0;
+      border-color: transparent var(--neon-cyan) transparent transparent;
+    }
+    
+    .experience-title {
+      color: var(--neon-cyan);
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .experience-title::after {
+      content: "//";
+      position: absolute;
+      left: 100%;
+      margin-left: 10px;
+      color: var(--neon-magenta);
+      opacity: 0.7;
+    }
+    
+    .experience-date {
+      font-size: 0.9rem;
+      color: var(--neon-magenta);
+      margin-bottom: 1rem;
+      font-style: italic;
+      font-weight: bold;
+      letter-spacing: 1px;
+      display: block;
+    }
+    
+    .experience-details {
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    .experience-tech {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    
+    .tech-tag {
+      background-color: rgba(0, 255, 255, 0.1);
+      color: var(--neon-cyan);
+      padding: 0.2rem 0.7rem;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(0, 255, 255, 0.3);
+    }
+    
+    /* Animation d'entrée pour les éléments de la timeline */
+    .timeline-item {
+      opacity: 0;
+      transform: translateY(50px);
+      animation: fadeInUp 0.6s forwards;
+      animation-delay: calc(var(--i) * 0.2s);
+    }
+    
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Pulse animation pour les points de la timeline */
+    .timeline-item::after {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(0, 255, 255, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 255, 255, 0);
+      }
+    }
+    
+    @keyframes glowPulse {
+      0% { box-shadow: 0 0 5px var(--neon-cyan); }
+      100% { box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan); }
+    }
+    
+    /* Styles responsifs */
+    @media screen and (max-width: 768px) {
+      .timeline::after {
+        left: 31px;
+      }
+      
+      .timeline-item {
+        width: 100%;
+        padding-left: 70px;
+        padding-right: 25px;
+      }
+      
+      .timeline-item::after {
+        left: 22px;
+      }
+      
+      .left::after, .right::after {
+        left: 22px;
+      }
+      
+      .left .timeline-content::before, .right .timeline-content::before {
+        left: -10px;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent var(--neon-cyan) transparent transparent;
+      }
+      
+      .right {
+        left: 0;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="#" class="active">Parcours</a></li>
+        <li><a href="projets.html">Projets</a></li>
+        <li><a href="competences.html">Compétences</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main class="container">
+    <h1 class="page-title">Parcours</h1>
+    
+    <div class="timeline-container">
+      <div class="timeline">
+        <!-- Timeline item 1 -->
+        <div class="timeline-item left" style="--i:1">
+          <div class="timeline-content">
+            <h2 class="experience-title">IUT de Terre Sainte</h2>
+            <span class="experience-date">2023 - 2026</span>
+            <div class="experience-details">
+              <p> - BUT Réseaux et Télécommunications</p>
+              <p> - Parcours Cybersécurité</p>
+              <p> - Divers projets, présentés plus en détail sur leur page dédiée</p>
+            </div>
+            <div class="experience-tech">
+              <span class="tech-tag">Cybersécurité</span>
+              <span class="tech-tag">Réseaux</span>
+              <span class="tech-tag">Télécoms</span>
+              <span class="tech-tag">Programmation</span>
+            </div>
+          </div>
+        </div>
+    
+        <!-- Timeline item 2 -->
+        <div class="timeline-item right" style="--i:2">
+          <div class="timeline-content">
+            <h2 class="experience-title">Lycée La Salle Saint-Charles</h2>
+            <span class="experience-date">2020 - 2023</span>
+            <div class="experience-details">
+              <p> - BAC Général avec Mention</p>
+              <p> - Spécialités Mathématiques et Physique-Chimie</p>
+              <p> - Options Mathématiques expertes, section européene Histoire-Géographie et Arts plastiques</p>
+              <p> - Ma première expérience dans la cybersécurité fût le passage d'une certification d'initiation à la cybersécurité Cisco.</p>
+            </div>
+            <div class="experience-tech">
+              <span class="tech-tag">Mathématiques</span>
+              <span class="tech-tag">Physique</span>
+              <span class="tech-tag">Anglais</span>
+              <span class="tech-tag">Cybersécurité</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </main>
+</body>
+</html>
