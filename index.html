@@ -57,7 +57,9 @@
     nav {
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 1rem 0;
+      position: relative;
     }
     
     nav ul {
@@ -66,6 +68,11 @@
       margin: 0;
       padding: 0;
       gap: 2rem;
+    }
+    
+    .lang-toggle-wrapper {
+      position: absolute;
+      right: 2rem;
     }
     
     nav a {
@@ -95,6 +102,40 @@
       left: -0.8rem;
       color: var(--neon-cyan);
       opacity: 0.8;
+    }
+    
+    .lang-toggle {
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      padding: 0.2rem 0.5rem 0rem 0.5rem;
+      font-size: 2rem;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 5px var(--neon-cyan);
+      font-family: 'Courier New', monospace;
+    }
+    
+    .lang-toggle:hover {
+      background-color: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+      transform: scale(1.05);
+    }
+    
+    .lang-toggle::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border: 1px solid var(--neon-cyan);
+      animation: buttonPulse 2s infinite;
+      opacity: 0;
     }
     
     .hero {
@@ -174,6 +215,8 @@
       position: relative;
       overflow: hidden;
       box-shadow: 0 0 5px var(--neon-cyan);
+      text-decoration: none;
+      display: inline-block;
     }
     
     .cta-button:hover {
@@ -376,6 +419,11 @@
         gap: 1rem;
       }
       
+      .lang-toggle-wrapper {
+        position: static;
+        margin-top: 1rem;
+      }
+      
       .subtitle-primary {
         font-size: 1.5rem;
       }
@@ -441,12 +489,15 @@
   <header>
     <nav>
       <ul>
-        <li><a href="#" class="active">Accueil</a></li>
-        <li><a href="parcours.html">Parcours</a></li>
-        <li><a href="projets.html">Projets</a></li>
-        <li><a href="competences.html">Compétences</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="#" class="active" data-lang-nav="home">Accueil</a></li>
+        <li><a href="parcours.html" data-lang-nav="journey">Parcours</a></li>
+        <li><a href="projets.html" data-lang-nav="projects">Projets</a></li>
+        <li><a href="competences.html" data-lang-nav="skills">Compétences</a></li>
+        <li><a href="contact.html" data-lang-nav="contact">Contact</a></li>
       </ul>
+      <div class="lang-toggle-wrapper">
+        <button class="lang-toggle" id="langToggle">🇬🇧</button>
+      </div>
     </nav>
   </header>
   
@@ -455,9 +506,9 @@
       <div class="glitch-wrapper">
         <h1 class="glitch" data-text="Bilel BOUGHLEM">Bilel BOUGHLEM</h1>
       </div>
-      <p class="subtitle-primary">Étudiant en BUT Réseaux & Télécommunications – Parcours Cybersécurité.</p>
-      <p class="subtitle-secondary">J'aime résoudre des problèmes techniques complexes et apprendre en continu.</p>
-      <a href="Ressources_Index/CV_2025_Bilel_BOUGHLEM.pdf" class="cta-button">Mon CV</a>
+      <p class="subtitle-primary" data-lang="subtitle-primary">Étudiant en BUT Réseaux & Télécommunications – Parcours Cybersécurité.</p>
+      <p class="subtitle-secondary" data-lang="subtitle-secondary">J'aime résoudre des problèmes techniques complexes et apprendre en continu.</p>
+      <a href="Ressources_Index/CV_2025_Bilel_BOUGHLEM.pdf" class="cta-button" id="cvButton" data-lang="cv-button">Mon CV</a>
       
       <div class="scroll-arrow" onclick="document.getElementById('about').scrollIntoView({behavior: 'smooth'})">
         &#8595;
@@ -466,20 +517,61 @@
     
     <section id="about" class="about-section">
       <div class="about-image">
-        <img src="Ressources_Index/IMG_2025_Bilel_BOUGHLEM.webp" alt="Bilel BOUGHLEM">
+        <img src="Ressources_Index/IMG_2025_Bilel_BOUGHLEM.png" alt="Bilel BOUGHLEM">
       </div>
       <div class="about-text">
-        <h2>À propos</h2>
-        <p>Passionné par la sécurité, les réseaux robustes et l'automatisation, j'ai mené plusieurs projets mêlant programmation, infrastructure et cybersécurité. Je cherche à évoluer dans un environnement stimulant où je peux apprendre et contribuer activement.</p>
-        <p>Ce portfolio présente mes projets techniques, majoritairement axés sur la cybersécurité, la configuration de services réseau, et l'administration système. Je m'intéresse particulièrement aux environnements Linux, aux protocoles réseau, aux systèmes distribués et aux techniques de défense face aux menaces modernes.</p>
+        <h2 data-lang="about-title">À propos</h2>
+        <p data-lang="about-p1">Passionné par la sécurité, les réseaux robustes et l'automatisation, j'ai mené plusieurs projets mêlant programmation, infrastructure et cybersécurité. Je cherche à évoluer dans un environnement stimulant où je peux apprendre et contribuer activement.</p>
+        <p data-lang="about-p2">Ce portfolio présente mes projets techniques, majoritairement axés sur la cybersécurité, la configuration de services réseau, et l'administration système. Je m'intéresse particulièrement aux environnements Linux, aux protocoles réseau, aux systèmes distribués et aux techniques de défense face aux menaces modernes.</p>
         <div class="terminal-box">
-          <div class="typewriter" id="glitch-trigger" data-text="Ne cliquez pas ici.">Ne cliquez pas ici.</div>
+          <div class="typewriter" id="glitch-trigger" data-text="Ne cliquez pas ici." data-lang="terminal-text">Ne cliquez pas ici.</div>
         </div>
       </div>
     </section>
   </main>
 
+  <!-- Traductions spécifiques à cette page -->
   <script>
+    const translations = {
+      fr: {
+        'subtitle-primary': 'Étudiant en BUT Réseaux & Télécommunications – Parcours Cybersécurité.',
+        'subtitle-secondary': 'J\'aime résoudre des problèmes techniques complexes et apprendre en continu.',
+        'cv-button': 'Mon CV',
+        'about-title': 'À propos',
+        'about-p1': 'Passionné par la sécurité, les réseaux robustes et l\'automatisation, j\'ai mené plusieurs projets mêlant programmation, infrastructure et cybersécurité. Je cherche à évoluer dans un environnement stimulant où je peux apprendre et contribuer activement.',
+        'about-p2': 'Ce portfolio présente mes projets techniques, majoritairement axés sur la cybersécurité, la configuration de services réseau, et l\'administration système. Je m\'intéresse particulièrement aux environnements Linux, aux protocoles réseau, aux systèmes distribués et aux techniques de défense face aux menaces modernes.',
+        'terminal-text': 'Ne cliquez pas ici.',
+        'nav-home': 'Accueil',
+        'nav-journey': 'Parcours',
+        'nav-projects': 'Projets',
+        'nav-skills': 'Compétences',
+        'nav-contact': 'Contact',
+        'cv-path': 'Ressources_Index/CV_2025_Bilel_BOUGHLEM.pdf'
+      },
+      en: {
+        'subtitle-primary': 'Student in Networks & Telecommunications, specialised in Cybersecurity.',
+        'subtitle-secondary': 'I enjoy solving complex technical problems and learning continuously.',
+        'cv-button': 'My Resume',
+        'about-title': 'About',
+        'about-p1': 'Passionate about security, robust networks and automation, I have led several projects combining programming, infrastructure and cybersecurity. I seek to evolve in a stimulating environment where I can learn and contribute actively.',
+        'about-p2': 'This portfolio presents my technical projects, mainly focused on cybersecurity, network service configuration, and system administration. I am particularly interested in Linux environments, network protocols, distributed systems and defense techniques against modern threats.',
+        'terminal-text': 'Don\'t click here.',
+        'nav-home': 'Home',
+        'nav-journey': 'Formation',
+        'nav-projects': 'Projects',
+        'nav-skills': 'Skills',
+        'nav-contact': 'Contact',
+        'cv-path': 'Ressources_Index/CV_2025_Bilel_BOUGHLEM_EN.pdf'
+      }
+    };
+  </script>
+  
+  <!-- Gestion de la langue (partagée entre toutes les pages) -->
+  <script src="lang.js"></script>
+
+  <!-- Scripts spécifiques à cette page -->
+  <script>
+    // Glitch effect sur le terminal
     const glitchText = document.getElementById("glitch-trigger");
   
     glitchText.addEventListener("click", () => {
@@ -487,9 +579,8 @@
   
       setTimeout(() => {
         glitchText.classList.remove("glitch-burst");
-      }, 2000); // 2 secondes
+      }, 2000);
     });
   </script>
 </body>
-
 </html>
