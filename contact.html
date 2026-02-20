@@ -57,7 +57,9 @@
     nav {
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 1rem 0;
+      position: relative;
     }
     
     nav ul {
@@ -66,6 +68,11 @@
       margin: 0;
       padding: 0;
       gap: 2rem;
+    }
+    
+    .lang-toggle-wrapper {
+      position: absolute;
+      right: 2rem;
     }
     
     nav a {
@@ -95,6 +102,40 @@
       left: -0.8rem;
       color: var(--neon-cyan);
       opacity: 0.8;
+    }
+    
+    .lang-toggle {
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      padding: 0.2rem 0.5rem 0rem 0.5rem;
+      font-size: 2rem;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 5px var(--neon-cyan);
+      font-family: 'Courier New', monospace;
+    }
+    
+    .lang-toggle:hover {
+      background-color: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+      transform: scale(1.05);
+    }
+    
+    .lang-toggle::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border: 1px solid var(--neon-cyan);
+      animation: buttonPulse 2s infinite;
+      opacity: 0;
     }
     
     /* Styles pour la page Contact */
@@ -266,6 +307,12 @@
       100% { box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan); }
     }
     
+    @keyframes buttonPulse {
+      0% { transform: scale(1); opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+    
     @media screen and (max-width: 768px) {
       .contact-card {
         padding: 2rem;
@@ -276,6 +323,11 @@
         align-items: center;
         gap: 1rem;
       }
+      
+      .lang-toggle-wrapper {
+        position: static;
+        margin-top: 1rem;
+      }
     }
   </style>
 </head>
@@ -283,22 +335,25 @@
   <header>
     <nav>
       <ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="parcours.html">Parcours</a></li>
-        <li><a href="projets.html">Projets</a></li>
-        <li><a href="competences.html">Compétences</a></li>
-        <li><a href="#" class="active">Contact</a></li>
+        <li><a href="index.html" data-lang-nav="home">Accueil</a></li>
+        <li><a href="parcours.html" data-lang-nav="journey">Parcours</a></li>
+        <li><a href="projets.html" data-lang-nav="projects">Projets</a></li>
+        <li><a href="competences.html" data-lang-nav="skills">Compétences</a></li>
+        <li><a href="#" class="active" data-lang-nav="contact">Contact</a></li>
       </ul>
+      <div class="lang-toggle-wrapper">
+        <button class="lang-toggle" id="langToggle">🇬🇧</button>
+      </div>
     </nav>
   </header>
   
   <main class="container">
-    <h1 class="page-title">Contact</h1>
+    <h1 class="page-title" data-lang="page-title">Contact</h1>
     
     <div class="contact-container">
       <div class="contact-card animation-pulse">
         <div class="cyber-decoration"></div>
-        <h2 class="contact-heading">Contactez-moi !</h2>
+        <h2 class="contact-heading" data-lang="contact-heading">Contactez-moi !</h2>
         
         <div class="contact-links">
           <a href="mailto:b.boughlem@rt-iut.re" class="contact-link">
@@ -306,7 +361,7 @@
               <div class="icon">@</div>
             </div>
             <div>
-              <span class="link-label">EMAIL</span>
+              <span class="link-label" data-lang="email-label">EMAIL</span>
               <span class="link-text">b.boughlem@rt-iut.re</span>
             </div>
           </a>
@@ -316,7 +371,7 @@
               <div class="icon">in</div>
             </div>
             <div>
-              <span class="link-label">LINKEDIN</span>
+              <span class="link-label" data-lang="linkedin-label">LINKEDIN</span>
               <span class="link-text">Bilel Boughlem</span>
             </div>
           </a>
@@ -324,5 +379,90 @@
       </div>
     </div>
   </main>
+
+  <script>
+    // Traductions
+    const translations = {
+      fr: {
+        'page-title': 'Contact',
+        'contact-heading': 'Contactez-moi !',
+        'email-label': 'EMAIL',
+        'linkedin-label': 'LINKEDIN',
+        'nav-home': 'Accueil',
+        'nav-journey': 'Parcours',
+        'nav-projects': 'Projets',
+        'nav-skills': 'Compétences',
+        'nav-contact': 'Contact'
+      },
+      en: {
+        'page-title': 'Contact',
+        'contact-heading': 'Get in touch!',
+        'email-label': 'EMAIL',
+        'linkedin-label': 'LINKEDIN',
+        'nav-home': 'Home',
+        'nav-journey': 'Formation',
+        'nav-projects': 'Projects',
+        'nav-skills': 'Skills',
+        'nav-contact': 'Contact'
+      }
+    };
+
+    // Récupérer la langue depuis localStorage ou utiliser français par défaut
+    let currentLang = localStorage.getItem('preferredLang') || 'fr';
+
+    // Fonction pour changer la langue
+    function toggleLanguage() {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      // Sauvegarder la préférence dans localStorage
+      localStorage.setItem('preferredLang', currentLang);
+      updateContent();
+      
+      // Mettre à jour le bouton avec les drapeaux
+      const langToggle = document.getElementById('langToggle');
+      langToggle.textContent = currentLang === 'fr' ? '🇬🇧' : '🇫🇷';
+      
+      // Mettre à jour l'attribut lang du document
+      document.documentElement.lang = currentLang;
+    }
+
+    // Fonction pour mettre à jour le contenu
+    function updateContent() {
+      const lang = translations[currentLang];
+      
+      // Mettre à jour tous les éléments avec data-lang
+      document.querySelectorAll('[data-lang]').forEach(element => {
+        const key = element.getAttribute('data-lang');
+        if (lang[key]) {
+          element.textContent = lang[key];
+        }
+      });
+      
+      // Mettre à jour la navigation
+      document.querySelectorAll('[data-lang-nav]').forEach(element => {
+        const key = 'nav-' + element.getAttribute('data-lang-nav');
+        if (lang[key]) {
+          element.textContent = lang[key];
+        }
+      });
+    }
+
+    // Initialiser la page avec la langue sauvegardée
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mettre à jour le bouton avec le bon drapeau
+      const langToggle = document.getElementById('langToggle');
+      langToggle.textContent = currentLang === 'fr' ? '🇬🇧' : '🇫🇷';
+      
+      // Mettre à jour l'attribut lang du document
+      document.documentElement.lang = currentLang;
+      
+      // Appliquer les traductions si on est en anglais
+      if (currentLang === 'en') {
+        updateContent();
+      }
+    });
+
+    // Event listener pour le bouton de langue
+    document.getElementById('langToggle').addEventListener('click', toggleLanguage);
+  </script>
 </body>
 </html>
