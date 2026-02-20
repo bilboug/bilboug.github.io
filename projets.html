@@ -59,7 +59,9 @@
     nav {
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 1rem 0;
+      position: relative;
     }
     
     nav ul {
@@ -68,6 +70,11 @@
       margin: 0;
       padding: 0;
       gap: 2rem;
+    }
+    
+    .lang-toggle-wrapper {
+      position: absolute;
+      right: 2rem;
     }
     
     nav a {
@@ -97,6 +104,40 @@
       left: -0.8rem;
       color: var(--neon-cyan);
       opacity: 0.8;
+    }
+
+    .lang-toggle {
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      padding: 0.2rem 0.5rem 0rem 0.5rem;
+      font-size: 2rem;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 5px var(--neon-cyan);
+      font-family: 'Courier New', monospace;
+    }
+    
+    .lang-toggle:hover {
+      background-color: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+      transform: scale(1.05);
+    }
+    
+    .lang-toggle::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border: 1px solid var(--neon-cyan);
+      animation: buttonPulse 2s infinite;
+      opacity: 0;
     }
 
     .page-title {
@@ -477,6 +518,12 @@
       100% { transform: translateY(100%); }
     }
 
+    @keyframes buttonPulse {
+      0% { transform: scale(1); opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+
     @media (max-width: 768px) {
       .projects-grid {
         grid-template-columns: 1fr;
@@ -486,6 +533,11 @@
         flex-direction: column;
         align-items: center;
         gap: 1rem;
+      }
+      
+      .lang-toggle-wrapper {
+        position: static;
+        margin-top: 1rem;
       }
       
       .filter-tags {
@@ -498,35 +550,38 @@
   <header>
     <nav>
       <ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="parcours.html">Parcours</a></li>
-        <li><a href="projets.html" class="active">Projets</a></li>
-        <li><a href="competences.html">Compétences</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="index.html" data-lang-nav="home">Accueil</a></li>
+        <li><a href="parcours.html" data-lang-nav="journey">Parcours</a></li>
+        <li><a href="projets.html" class="active" data-lang-nav="projects">Projets</a></li>
+        <li><a href="competences.html" data-lang-nav="skills">Compétences</a></li>
+        <li><a href="contact.html" data-lang-nav="contact">Contact</a></li>
       </ul>
+      <div class="lang-toggle-wrapper">
+        <button class="lang-toggle" id="langToggle">🇬🇧</button>
+      </div>
     </nav>
   </header>
   
   <main class="container">
-    <h1 class="page-title">Projets</h1>
-    <p class="page-description">Découvrez mes projets et réalisations dans différents domaines de la cybersécurité et des réseaux. Utilisez le filtre pour afficher les projets qui vous intéressent.</p>
+    <h1 class="page-title" data-lang="page-title">Projets</h1>
+    <p class="page-description" data-lang="page-description">Découvrez mes projets et réalisations dans différents domaines de la cybersécurité et des réseaux. Utilisez le filtre pour afficher les projets qui vous intéressent.</p>
     
     <div class="filter-container">
-      <div class="filter-title">Filtrer par domaine</div>
+      <div class="filter-title" data-lang="filter-title">Filtrer par domaine</div>
       <div class="filter-tags">
-        <button class="filter-tag" data-tag="systemes">Systèmes d'exploitation</button>
-        <button class="filter-tag" data-tag="linux">Gestion des services Linux</button>
-        <button class="filter-tag" data-tag="reseau">Administration réseau</button>
-        <button class="filter-tag" data-tag="projet">Gestion de projet</button>
-        <button class="filter-tag" data-tag="virtualisation">Virtualisation</button>
-        <button class="filter-tag blue-team" data-tag="blueteam">Cybersécurité BlueTeam</button>
-        <button class="filter-tag red-team" data-tag="redteam">Cybersécurité RedTeam</button>
-        <button class="filter-tag" data-tag="telecom">Télécommunications</button>
-        <button class="filter-tag" data-tag="dev">Développement</button>
+        <button class="filter-tag" data-tag="systemes" data-lang="filter-systemes">Systèmes d'exploitation</button>
+        <button class="filter-tag" data-tag="linux" data-lang="filter-linux">Gestion des services Linux</button>
+        <button class="filter-tag" data-tag="reseau" data-lang="filter-reseau">Administration réseau</button>
+        <button class="filter-tag" data-tag="projet" data-lang="filter-projet">Gestion de projet</button>
+        <button class="filter-tag" data-tag="virtualisation" data-lang="filter-virtualisation">Virtualisation</button>
+        <button class="filter-tag blue-team" data-tag="blueteam" data-lang="filter-blueteam">Cybersécurité BlueTeam</button>
+        <button class="filter-tag red-team" data-tag="redteam" data-lang="filter-redteam">Cybersécurité RedTeam</button>
+        <button class="filter-tag" data-tag="telecom" data-lang="filter-telecom">Télécommunications</button>
+        <button class="filter-tag" data-tag="dev" data-lang="filter-dev">Développement</button>
       </div>
       <div class="filter-controls">
-        <button class="filter-button" id="clear-filters">Effacer le filtre</button>
-        <span id="project-count">Tous les projets (5)</span>
+        <button class="filter-button" id="clear-filters" data-lang="clear-filter">Effacer le filtre</button>
+        <span id="project-count" data-lang-prefix="all-projects">Tous les projets (8)</span>
       </div>
     </div>
     
@@ -537,13 +592,13 @@
           <img src="Ressources_Projets/Images/telecom.jpeg">
         </div>
         <div class="project-content">
-          <h3 class="project-title">Mise en place d'un système de transmission avec Matlab</h3>
-          <p class="project-description">Transmission de données entre deux clients Matlab à configurer, connectés par voie hertzienne avec deux Adalm Pluto SDR.</p>
+          <h3 class="project-title" data-lang="project1-title">Mise en place d'un système de transmission avec Matlab</h3>
+          <p class="project-description" data-lang="project1-desc">Transmission de données entre deux clients Matlab à configurer, connectés par voie hertzienne avec deux Adalm Pluto SDR.</p>
           <div class="project-tags">
-            <span class="project-tag">Télécommunications</span>
-            <span class="project-tag">Gestion de projet</span>
+            <span class="project-tag" data-lang="tag-telecom">Télécommunications</span>
+            <span class="project-tag" data-lang="tag-projet">Gestion de projet</span>
           </div>
-          <a href="sae301.html" class="project-link">Voir le projet</a>
+          <a href="sae301.html" class="project-link" data-lang="view-project">Voir le projet</a>
         </div>
       </div>
       
@@ -553,15 +608,15 @@
           <img src="Ressources_Projets/Images/redteam.jpg">
         </div>
         <div class="project-content">
-          <h3 class="project-title">Hacking de machines vulnérables (Vague 1)</h3>
-          <p class="project-description">Recherche de flags en exploitant des vulnérabilités dans le système de machines vulnérables.</p>
+          <h3 class="project-title" data-lang="project2-title">Hacking de machines vulnérables (Vague 1)</h3>
+          <p class="project-description" data-lang="project2-desc">Recherche de flags en exploitant des vulnérabilités dans le système de machines vulnérables.</p>
           <div class="project-tags">
-            <span class="project-tag red-team">Cybersécurité RedTeam</span>
-            <span class="project-tag">Systèmes d'exploitation</span>
-            <span class="project-tag">Gestion des services Linux</span>
-            <span class="project-tag">Virtualisation</span>
+            <span class="project-tag red-team" data-lang="tag-redteam">Cybersécurité RedTeam</span>
+            <span class="project-tag" data-lang="tag-systemes">Systèmes d'exploitation</span>
+            <span class="project-tag" data-lang="tag-linux">Gestion des services Linux</span>
+            <span class="project-tag" data-lang="tag-virtualisation">Virtualisation</span>
           </div>
-          <a href="sae304tp2.html" class="project-link">Voir le projet</a>
+          <a href="sae304tp2.html" class="project-link" data-lang="view-project">Voir le projet</a>
         </div>
       </div>
       
@@ -571,15 +626,15 @@
           <img src="Ressources_Projets/Images/redteam.jpg">
         </div>
         <div class="project-content">
-          <h3 class="project-title">Hacking de machines vulnérables (Vague 2)</h3>
-          <p class="project-description">Recherche de flags en exploitant des vulnérabilités dans le système de machines vulnérables.</p>
+          <h3 class="project-title" data-lang="project3-title">Hacking de machines vulnérables (Vague 2)</h3>
+          <p class="project-description" data-lang="project3-desc">Recherche de flags en exploitant des vulnérabilités dans le système de machines vulnérables.</p>
           <div class="project-tags">
-            <span class="project-tag red-team">Cybersécurité RedTeam</span>
-            <span class="project-tag">Systèmes d'exploitation</span>
-            <span class="project-tag">Gestion des services Linux</span>
-            <span class="project-tag">Virtualisation</span>
+            <span class="project-tag red-team" data-lang="tag-redteam">Cybersécurité RedTeam</span>
+            <span class="project-tag" data-lang="tag-systemes">Systèmes d'exploitation</span>
+            <span class="project-tag" data-lang="tag-linux">Gestion des services Linux</span>
+            <span class="project-tag" data-lang="tag-virtualisation">Virtualisation</span>
           </div>
-          <a href="sae304tp3.html" class="project-link">Voir le projet</a>
+          <a href="sae304tp3.html" class="project-link" data-lang="view-project">Voir le projet</a>
         </div>
       </div>
       
@@ -589,14 +644,14 @@
           <img src="Ressources_Projets/Images/reseau.jpg">
         </div>
         <div class="project-content">
-          <h3 class="project-title">Simulation d'un réseau IPv6 avec Netkit</h3>
-          <p class="project-description">Mise en place et routage de réseaux IPv6 avec des machines virtuelles Netkit.</p>
+          <h3 class="project-title" data-lang="project4-title">Simulation d'un réseau IPv6 avec Netkit</h3>
+          <p class="project-description" data-lang="project4-desc">Mise en place et routage de réseaux IPv6 avec des machines virtuelles Netkit.</p>
           <div class="project-tags">
-            <span class="project-tag">Administration réseau</span>
-            <span class="project-tag">Systèmes d'exploitation</span>
-            <span class="project-tag">Virtualisation</span>
+            <span class="project-tag" data-lang="tag-reseau">Administration réseau</span>
+            <span class="project-tag" data-lang="tag-systemes">Systèmes d'exploitation</span>
+            <span class="project-tag" data-lang="tag-virtualisation">Virtualisation</span>
           </div>
-          <a href="r301tp1.html" class="project-link">Voir le projet</a>
+          <a href="r301tp1.html" class="project-link" data-lang="view-project">Voir le projet</a>
         </div>
       </div>
       
@@ -606,15 +661,15 @@
             <img src="Ressources_Projets/Images/blueteam.jpg">
           </div>
           <div class="project-content">
-            <h3 class="project-title">Protection de la disponibilité de serveurs web</h3>
-            <p class="project-description">Mise en place et hardening de serveurs web avec HAPROXY puis test de la configuration avec des attaques de type DDoS.</p>
+            <h3 class="project-title" data-lang="project5-title">Protection de la disponibilité de serveurs web</h3>
+            <p class="project-description" data-lang="project5-desc">Mise en place et hardening de serveurs web avec HAPROXY puis test de la configuration avec des attaques de type DDoS.</p>
             <div class="project-tags">
-              <span class="project-tag blue-team">Cybersécurité BlueTeam</span>
-              <span class="project-tag red-team">Cybersécurité RedTeam</span>
-              <span class="project-tag">Gestion des services Linux</span>
-              <span class="project-tag">Virtualisation</span>
+              <span class="project-tag blue-team" data-lang="tag-blueteam">Cybersécurité BlueTeam</span>
+              <span class="project-tag red-team" data-lang="tag-redteam">Cybersécurité RedTeam</span>
+              <span class="project-tag" data-lang="tag-linux">Gestion des services Linux</span>
+              <span class="project-tag" data-lang="tag-virtualisation">Virtualisation</span>
             </div>
-            <a href="r411tp1.html" class="project-link">Voir le projet</a>
+            <a href="r411tp1.html" class="project-link" data-lang="view-project">Voir le projet</a>
           </div>
         </div>
       
@@ -624,15 +679,15 @@
             <img src="Ressources_Projets/Images/blueteam.jpg">
           </div>
           <div class="project-content">
-            <h3 class="project-title">Déploiement et sécurisation d'un système d'information</h3>
-            <p class="project-description">Mise en place et la sécurisation complète du système d'information d'une institution bancaire fictive, puis du pentest du système d'information.</p>
+            <h3 class="project-title" data-lang="project6-title">Déploiement et sécurisation d'un système d'information</h3>
+            <p class="project-description" data-lang="project6-desc">Mise en place et la sécurisation complète du système d'information d'une institution bancaire fictive, puis du pentest du système d'information.</p>
             <div class="project-tags">
-              <span class="project-tag blue-team">Cybersécurité BlueTeam</span>
-              <span class="project-tag red-team">Cybersécurité RedTeam</span>
-              <span class="project-tag">Gestion des services Linux</span>
-              <span class="project-tag">Administration réseau</span>
+              <span class="project-tag blue-team" data-lang="tag-blueteam">Cybersécurité BlueTeam</span>
+              <span class="project-tag red-team" data-lang="tag-redteam">Cybersécurité RedTeam</span>
+              <span class="project-tag" data-lang="tag-linux">Gestion des services Linux</span>
+              <span class="project-tag" data-lang="tag-reseau">Administration réseau</span>
             </div>
-            <a href="sae401.html" class="project-link">Voir le projet</a>
+            <a href="sae401.html" class="project-link" data-lang="view-project">Voir le projet</a>
           </div>
         </div>
 
@@ -642,15 +697,15 @@
             <img src="Ressources_Projets/Images/blueteam.jpg">
           </div>
           <div class="project-content">
-            <h3 class="project-title">Stage à la Direction des Systèmes d'Information de la mairie de Saint-Pierre</h3>
-            <p class="project-description">Étude des solutions de supervision réseau et la mise en place d'un serveur dans un contexte professionnel.</p>
+            <h3 class="project-title" data-lang="project7-title">Stage à la Direction des Systèmes d'Information de la mairie de Saint-Pierre</h3>
+            <p class="project-description" data-lang="project7-desc">Étude des solutions de supervision réseau et la mise en place d'un serveur dans un contexte professionnel.</p>
             <div class="project-tags">
-              <span class="project-tag blue-team">Cybersécurité BlueTeam</span>
-              <span class="project-tag">Systèmes d'exploitation</span>
-              <span class="project-tag">Administration réseau</span>
-              <span class="project-tag">Développement</span>
+              <span class="project-tag blue-team" data-lang="tag-blueteam">Cybersécurité BlueTeam</span>
+              <span class="project-tag" data-lang="tag-systemes">Systèmes d'exploitation</span>
+              <span class="project-tag" data-lang="tag-reseau">Administration réseau</span>
+              <span class="project-tag" data-lang="tag-dev">Développement</span>
             </div>
-            <a href="stage.html" class="project-link">Voir le projet</a>
+            <a href="stage.html" class="project-link" data-lang="view-project">Voir le projet</a>
           </div>
         </div>
 
@@ -660,35 +715,179 @@
             <img src="Ressources_Projets/Images/blueteam.jpg">
           </div>
           <div class="project-content">
-            <h3 class="project-title">Sécurisation et supervision avancées d'un système d'information</h3>
-            <p class="project-description">Conception et la mise en place d'une solution complète de supervision et de gestion centralisée des logs.</p>
+            <h3 class="project-title" data-lang="project8-title">Sécurisation et supervision avancées d'un système d'information</h3>
+            <p class="project-description" data-lang="project8-desc">Conception et la mise en place d'une solution complète de supervision et de gestion centralisée des logs.</p>
             <div class="project-tags">
-              <span class="project-tag blue-team">Cybersécurité BlueTeam</span>
-              <span class="project-tag">Systèmes d'exploitation</span>
-              <span class="project-tag">Administration réseau</span>
-              <span class="project-tag">Virtualisation</span>
+              <span class="project-tag blue-team" data-lang="tag-blueteam">Cybersécurité BlueTeam</span>
+              <span class="project-tag" data-lang="tag-systemes">Systèmes d'exploitation</span>
+              <span class="project-tag" data-lang="tag-reseau">Administration réseau</span>
+              <span class="project-tag" data-lang="tag-virtualisation">Virtualisation</span>
             </div>
-            <a href="sae503.html" class="project-link">Voir le projet</a>
+            <a href="sae503.html" class="project-link" data-lang="view-project">Voir le projet</a>
           </div>
         </div>
 
       <!-- Message affiché si aucun projet ne correspond aux filtres -->
-      <div class="no-results" style="display: none;">
+      <div class="no-results" style="display: none;" data-lang="no-results">
         Aucun projet ne correspond aux filtres sélectionnés. Veuillez modifier vos critères de recherche.
       </div>
     </div>
   </main>
 
   <script>
+    // Traductions
+    const translations = {
+      fr: {
+        'page-title': 'Projets',
+        'page-description': 'Découvrez mes projets et réalisations dans différents domaines de la cybersécurité et des réseaux. Utilisez le filtre pour afficher les projets qui vous intéressent.',
+        'filter-title': 'Filtrer par domaine',
+        'filter-systemes': 'Systèmes d\'exploitation',
+        'filter-linux': 'Gestion des services Linux',
+        'filter-reseau': 'Administration réseau',
+        'filter-projet': 'Gestion de projet',
+        'filter-virtualisation': 'Virtualisation',
+        'filter-blueteam': 'Cybersécurité BlueTeam',
+        'filter-redteam': 'Cybersécurité RedTeam',
+        'filter-telecom': 'Télécommunications',
+        'filter-dev': 'Développement',
+        'clear-filter': 'Effacer le filtre',
+        'all-projects': 'Tous les projets',
+        'projects-found': 'projet(s) trouvé(s)',
+        'no-results': 'Aucun projet ne correspond aux filtres sélectionnés. Veuillez modifier vos critères de recherche.',
+        'view-project': 'Voir le projet',
+        'project1-title': 'Mise en place d\'un système de transmission avec Matlab',
+        'project1-desc': 'Transmission de données entre deux clients Matlab à configurer, connectés par voie hertzienne avec deux Adalm Pluto SDR.',
+        'project2-title': 'Hacking de machines vulnérables (Vague 1)',
+        'project2-desc': 'Recherche de flags en exploitant des vulnérabilités dans le système de machines vulnérables.',
+        'project3-title': 'Hacking de machines vulnérables (Vague 2)',
+        'project3-desc': 'Recherche de flags en exploitant des vulnérabilités dans le système de machines vulnérables.',
+        'project4-title': 'Simulation d\'un réseau IPv6 avec Netkit',
+        'project4-desc': 'Mise en place et routage de réseaux IPv6 avec des machines virtuelles Netkit.',
+        'project5-title': 'Protection de la disponibilité de serveurs web',
+        'project5-desc': 'Mise en place et hardening de serveurs web avec HAPROXY puis test de la configuration avec des attaques de type DDoS.',
+        'project6-title': 'Déploiement et sécurisation d\'un système d\'information',
+        'project6-desc': 'Mise en place et la sécurisation complète du système d\'information d\'une institution bancaire fictive, puis du pentest du système d\'information.',
+        'project7-title': 'Stage à la Direction des Systèmes d\'Information de la mairie de Saint-Pierre',
+        'project7-desc': 'Étude des solutions de supervision réseau et la mise en place d\'un serveur dans un contexte professionnel.',
+        'project8-title': 'Sécurisation et supervision avancées d\'un système d\'information',
+        'project8-desc': 'Conception et la mise en place d\'une solution complète de supervision et de gestion centralisée des logs.',
+        'tag-telecom': 'Télécommunications',
+        'tag-projet': 'Gestion de projet',
+        'tag-redteam': 'Cybersécurité RedTeam',
+        'tag-blueteam': 'Cybersécurité BlueTeam',
+        'tag-systemes': 'Systèmes d\'exploitation',
+        'tag-linux': 'Gestion des services Linux',
+        'tag-reseau': 'Administration réseau',
+        'tag-virtualisation': 'Virtualisation',
+        'tag-dev': 'Développement',
+        'nav-home': 'Accueil',
+        'nav-journey': 'Parcours',
+        'nav-projects': 'Projets',
+        'nav-skills': 'Compétences',
+        'nav-contact': 'Contact'
+      },
+      en: {
+        'page-title': 'Projects',
+        'page-description': 'Discover my projects and achievements in various areas of cybersecurity and networks. Use the filter to display projects that interest you.',
+        'filter-title': 'Filter by domain',
+        'filter-systemes': 'Operating Systems',
+        'filter-linux': 'Linux Services Management',
+        'filter-reseau': 'Network Administration',
+        'filter-projet': 'Project Management',
+        'filter-virtualisation': 'Virtualisation',
+        'filter-blueteam': 'Cybersecurity BlueTeam',
+        'filter-redteam': 'Cybersecurity RedTeam',
+        'filter-telecom': 'Telecommunications',
+        'filter-dev': 'Development',
+        'clear-filter': 'Clear filter',
+        'all-projects': 'All projects',
+        'projects-found': 'project(s) found',
+        'no-results': 'No projects match the selected filters. Please modify your search criteria.',
+        'view-project': 'View project',
+        'project1-title': 'Setting up a transmission system with Matlab',
+        'project1-desc': 'Data transmission between two Matlab clients to be configured, connected by wireless with two Adalm Pluto SDR.',
+        'project2-title': 'Hacking vulnerable machines (Wave 1)',
+        'project2-desc': 'Flag hunting by exploiting vulnerabilities in vulnerable machine systems.',
+        'project3-title': 'Hacking vulnerable machines (Wave 2)',
+        'project3-desc': 'Flag hunting by exploiting vulnerabilities in vulnerable machine systems.',
+        'project4-title': 'Simulation of an IPv6 network with Netkit',
+        'project4-desc': 'Setting up and routing IPv6 networks with Netkit virtual machines.',
+        'project5-title': 'Protection of web server availability',
+        'project5-desc': 'Setting up and hardening web servers with HAPROXY then testing the configuration with DDoS type attacks.',
+        'project6-title': 'Deployment and securing of an information system',
+        'project6-desc': 'Complete setup and securing of the information system of a fictional banking institution, then pentesting the information system.',
+        'project7-title': 'Internship at the Information Systems Department of Saint-Pierre City Hall',
+        'project7-desc': 'Study of network monitoring solutions and server setup in a professional context.',
+        'project8-title': 'Advanced securing and monitoring of an information system',
+        'project8-desc': 'Design and implementation of a complete monitoring and centralized log management solution.',
+        'tag-telecom': 'Telecommunications',
+        'tag-projet': 'Project Management',
+        'tag-redteam': 'Cybersecurity RedTeam',
+        'tag-blueteam': 'Cybersecurity BlueTeam',
+        'tag-systemes': 'Operating Systems',
+        'tag-linux': 'Linux Services Management',
+        'tag-reseau': 'Network Administration',
+        'tag-virtualisation': 'Virtualisation',
+        'tag-dev': 'Development',
+        'nav-home': 'Home',
+        'nav-journey': 'Formation',
+        'nav-projects': 'Projects',
+        'nav-skills': 'Skills',
+        'nav-contact': 'Contact'
+      }
+    };
+
+    // Récupérer la langue depuis localStorage ou utiliser français par défaut
+    let currentLang = localStorage.getItem('preferredLang') || 'fr';
+
+    // Variable pour stocker le filtre actif (un seul à la fois)
+    let activeFilter = null;
+
+    // Fonction pour changer la langue
+    function toggleLanguage() {
+      currentLang = currentLang === 'fr' ? 'en' : 'fr';
+      // Sauvegarder la préférence dans localStorage
+      localStorage.setItem('preferredLang', currentLang);
+      updateContent();
+      
+      // Mettre à jour le bouton avec les drapeaux
+      const langToggle = document.getElementById('langToggle');
+      langToggle.textContent = currentLang === 'fr' ? '🇬🇧' : '🇫🇷';
+      
+      // Mettre à jour l'attribut lang du document
+      document.documentElement.lang = currentLang;
+    }
+
+    // Fonction pour mettre à jour le contenu
+    function updateContent() {
+      const lang = translations[currentLang];
+      
+      // Mettre à jour tous les éléments avec data-lang
+      document.querySelectorAll('[data-lang]').forEach(element => {
+        const key = element.getAttribute('data-lang');
+        if (lang[key]) {
+          element.textContent = lang[key];
+        }
+      });
+      
+      // Mettre à jour la navigation
+      document.querySelectorAll('[data-lang-nav]').forEach(element => {
+        const key = 'nav-' + element.getAttribute('data-lang-nav');
+        if (lang[key]) {
+          element.textContent = lang[key];
+        }
+      });
+      
+      // Mettre à jour le compteur de projets
+      updateProjectCount();
+    }
+
     // Gestion du filtrage par tags
     const filterTags = document.querySelectorAll('.filter-tag');
     const projectCards = document.querySelectorAll('.project-card');
     const projectCount = document.getElementById('project-count');
     const clearFiltersBtn = document.getElementById('clear-filters');
     const noResults = document.querySelector('.no-results');
-
-    // Variable pour stocker le filtre actif (un seul à la fois)
-    let activeFilter = null;
 
     // Initialiser le compteur de projets
     updateProjectCount();
@@ -747,18 +946,19 @@
         }
       });
   
-          // Afficher le message "Aucun résultat" si nécessaire
-          noResults.style.display = hasVisibleProjects ? 'none' : 'block';
-        }
+      // Afficher le message "Aucun résultat" si nécessaire
+      noResults.style.display = hasVisibleProjects ? 'none' : 'block';
+    }
 
     // Mettre à jour le compteur de projets visibles
     function updateProjectCount() {
+      const lang = translations[currentLang];
       const visibleProjects = Array.from(projectCards).filter(card => card.style.display !== 'none').length;
   
       if (activeFilter === null) {
-        projectCount.textContent = `Tous les projets (${projectCards.length})`;
+        projectCount.textContent = `${lang['all-projects']} (${projectCards.length})`;
       } else {
-        projectCount.textContent = `${visibleProjects} projet(s) trouvé(s)`;
+        projectCount.textContent = `${visibleProjects} ${lang['projects-found']}`;
       }
     }
     
@@ -778,9 +978,27 @@
       card.style.transform = 'translateY(20px)';
       card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
     });
-    
-    // Lancer l'animation après le chargement
-    window.addEventListener('load', animateCards);
+
+    // Initialiser la page avec la langue sauvegardée
+    document.addEventListener('DOMContentLoaded', function() {
+      // Mettre à jour le bouton avec le bon drapeau
+      const langToggle = document.getElementById('langToggle');
+      langToggle.textContent = currentLang === 'fr' ? '🇬🇧' : '🇫🇷';
+      
+      // Mettre à jour l'attribut lang du document
+      document.documentElement.lang = currentLang;
+      
+      // Appliquer les traductions si on est en anglais
+      if (currentLang === 'en') {
+        updateContent();
+      }
+      
+      // Lancer l'animation
+      animateCards();
+    });
+
+    // Event listener pour le bouton de langue
+    document.getElementById('langToggle').addEventListener('click', toggleLanguage);
   </script>
 </body>
 </html>
