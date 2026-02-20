@@ -57,7 +57,9 @@
     nav {
       display: flex;
       justify-content: center;
+      align-items: center;
       padding: 1rem 0;
+      position: relative;
     }
     
     nav ul {
@@ -66,6 +68,11 @@
       margin: 0;
       padding: 0;
       gap: 2rem;
+    }
+    
+    .lang-toggle-wrapper {
+      position: absolute;
+      right: 2rem;
     }
     
     nav a {
@@ -95,6 +102,40 @@
       left: -0.8rem;
       color: var(--neon-cyan);
       opacity: 0.8;
+    }
+    
+    .lang-toggle {
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      padding: 0.2rem 0.5rem 0rem 0.5rem;
+      font-size: 2rem;
+      letter-spacing: 0px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 5px var(--neon-cyan);
+      font-family: 'Courier New', monospace;
+    }
+    
+    .lang-toggle:hover {
+      background-color: rgba(0, 255, 255, 0.1);
+      box-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan);
+      transform: scale(1.05);
+    }
+    
+    .lang-toggle::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border: 1px solid var(--neon-cyan);
+      animation: buttonPulse 2s infinite;
+      opacity: 0;
     }
     
     /* Styles pour la page Parcours */
@@ -304,6 +345,12 @@
       100% { box-shadow: 0 0 15px var(--neon-cyan), 0 0 30px var(--neon-cyan); }
     }
     
+    @keyframes buttonPulse {
+      0% { transform: scale(1); opacity: 0; }
+      50% { opacity: 0.5; }
+      100% { transform: scale(1.2); opacity: 0; }
+    }
+    
     /* Styles responsifs */
     @media screen and (max-width: 768px) {
       .timeline::after {
@@ -339,6 +386,11 @@
         align-items: center;
         gap: 1rem;
       }
+      
+      .lang-toggle-wrapper {
+        position: static;
+        margin-top: 1rem;
+      }
     }
   </style>
 </head>
@@ -346,35 +398,38 @@
   <header>
     <nav>
       <ul>
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="#" class="active">Parcours</a></li>
-        <li><a href="projets.html">Projets</a></li>
-        <li><a href="competences.html">Compétences</a></li>
-        <li><a href="contact.html">Contact</a></li>
+        <li><a href="index.html" data-lang-nav="home">Accueil</a></li>
+        <li><a href="#" class="active" data-lang-nav="journey">Parcours</a></li>
+        <li><a href="projets.html" data-lang-nav="projects">Projets</a></li>
+        <li><a href="competences.html" data-lang-nav="skills">Compétences</a></li>
+        <li><a href="contact.html" data-lang-nav="contact">Contact</a></li>
       </ul>
+      <div class="lang-toggle-wrapper">
+        <button class="lang-toggle" id="langToggle">🇬🇧</button>
+      </div>
     </nav>
   </header>
   
   <main class="container">
-    <h1 class="page-title">Parcours</h1>
+    <h1 class="page-title" data-lang="page-title">Parcours</h1>
     
     <div class="timeline-container">
       <div class="timeline">
         <!-- Timeline item 1 -->
         <div class="timeline-item left" style="--i:1">
           <div class="timeline-content">
-            <h2 class="experience-title">IUT de Terre Sainte</h2>
+            <h2 class="experience-title" data-lang="exp1-title">IUT de Terre Sainte</h2>
             <span class="experience-date">2023 - 2026</span>
             <div class="experience-details">
-              <p> - BUT Réseaux et Télécommunications</p>
-              <p> - Parcours Cybersécurité</p>
-              <p> - Divers projets, présentés plus en détail sur leur page dédiée</p>
+              <p data-lang="exp1-detail1"> - BUT Réseaux et Télécommunications</p>
+              <p data-lang="exp1-detail2"> - Parcours Cybersécurité</p>
+              <p data-lang="exp1-detail3"> - Divers projets, présentés plus en détail sur leur page dédiée</p>
             </div>
             <div class="experience-tech">
-              <span class="tech-tag">Cybersécurité</span>
-              <span class="tech-tag">Réseaux</span>
-              <span class="tech-tag">Télécoms</span>
-              <span class="tech-tag">Programmation</span>
+              <span class="tech-tag" data-lang="tag-cyber">Cybersécurité</span>
+              <span class="tech-tag" data-lang="tag-network">Réseaux</span>
+              <span class="tech-tag" data-lang="tag-telecom">Télécoms</span>
+              <span class="tech-tag" data-lang="tag-prog">Programmation</span>
             </div>
           </div>
         </div>
@@ -382,24 +437,81 @@
         <!-- Timeline item 2 -->
         <div class="timeline-item right" style="--i:2">
           <div class="timeline-content">
-            <h2 class="experience-title">Lycée La Salle Saint-Charles</h2>
+            <h2 class="experience-title" data-lang="exp2-title">Lycée La Salle Saint-Charles</h2>
             <span class="experience-date">2020 - 2023</span>
             <div class="experience-details">
-              <p> - BAC Général avec Mention</p>
-              <p> - Spécialités Mathématiques et Physique-Chimie</p>
-              <p> - Options Mathématiques expertes, section européene Histoire-Géographie et Arts plastiques</p>
-              <p> - Ma première expérience dans la cybersécurité fût le passage d'une certification d'initiation à la cybersécurité Cisco.</p>
+              <p data-lang="exp2-detail1"> - BAC Général avec Mention</p>
+              <p data-lang="exp2-detail2"> - Spécialités Mathématiques et Physique-Chimie</p>
+              <p data-lang="exp2-detail3"> - Options Mathématiques expertes, section européene Histoire-Géographie et Arts plastiques</p>
+              <p data-lang="exp2-detail4"> - Ma première expérience dans la cybersécurité fût le passage d'une certification d'initiation à la cybersécurité Cisco.</p>
             </div>
             <div class="experience-tech">
-              <span class="tech-tag">Mathématiques</span>
-              <span class="tech-tag">Physique</span>
-              <span class="tech-tag">Anglais</span>
-              <span class="tech-tag">Cybersécurité</span>
+              <span class="tech-tag" data-lang="tag-math">Mathématiques</span>
+              <span class="tech-tag" data-lang="tag-physics">Physique</span>
+              <span class="tech-tag" data-lang="tag-english">Anglais</span>
+              <span class="tech-tag" data-lang="tag-cyber">Cybersécurité</span>
             </div>
           </div>
         </div>
       </div>
     </div>    
   </main>
+
+  <!-- Traductions spécifiques à cette page -->
+  <script>
+    const translations = {
+      fr: {
+        'page-title': 'Parcours',
+        'exp1-title': 'IUT de Terre Sainte',
+        'exp1-detail1': ' - BUT Réseaux et Télécommunications',
+        'exp1-detail2': ' - Parcours Cybersécurité',
+        'exp1-detail3': ' - Divers projets, présentés plus en détail sur leur page dédiée',
+        'exp2-title': 'Lycée La Salle Saint-Charles',
+        'exp2-detail1': ' - BAC Général avec Mention',
+        'exp2-detail2': ' - Spécialités Mathématiques et Physique-Chimie',
+        'exp2-detail3': ' - Options Mathématiques expertes, section européene Histoire-Géographie et Arts plastiques',
+        'exp2-detail4': ' - Ma première expérience dans la cybersécurité fût le passage d\'une certification d\'initiation à la cybersécurité Cisco.',
+        'tag-cyber': 'Cybersécurité',
+        'tag-network': 'Réseaux',
+        'tag-telecom': 'Télécoms',
+        'tag-prog': 'Programmation',
+        'tag-math': 'Mathématiques',
+        'tag-physics': 'Physique',
+        'tag-english': 'Anglais',
+        'nav-home': 'Accueil',
+        'nav-journey': 'Parcours',
+        'nav-projects': 'Projets',
+        'nav-skills': 'Compétences',
+        'nav-contact': 'Contact'
+      },
+      en: {
+        'page-title': 'Formation',
+        'exp1-title': 'IUT de Terre Sainte',
+        'exp1-detail1': ' - Bachelor in Networks & Telecommunications',
+        'exp1-detail2': ' - Cybersecurity Track',
+        'exp1-detail3': ' - Various projects, presented in more detail on their dedicated page',
+        'exp2-title': 'Lycée La Salle Saint-Charles',
+        'exp2-detail1': ' - High School Diploma with Honors',
+        'exp2-detail2': ' - Specialisations in Mathematics and Physics-Chemistry',
+        'exp2-detail3': ' - Advanced Mathematics option, European History-Geography section and Visual Arts',
+        'exp2-detail4': ' - My first experience in cybersecurity was passing a Cisco introductory cybersecurity certification.',
+        'tag-cyber': 'Cybersecurity',
+        'tag-network': 'Networks',
+        'tag-telecom': 'Telecoms',
+        'tag-prog': 'Programming',
+        'tag-math': 'Mathematics',
+        'tag-physics': 'Physics',
+        'tag-english': 'English',
+        'nav-home': 'Home',
+        'nav-journey': 'Formation',
+        'nav-projects': 'Projects',
+        'nav-skills': 'Skills',
+        'nav-contact': 'Contact'
+      }
+    };
+  </script>
+  
+  <!-- Gestion de la langue (partagée entre toutes les pages) -->
+  <script src="lang.js"></script>
 </body>
 </html>
